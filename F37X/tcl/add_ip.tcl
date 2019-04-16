@@ -19,9 +19,9 @@
 ############################################################################
 
 # add pcie4_uscale_plus
-add_files -norecurse                             $ip_dir/pcie4c_uscale_plus_0/pcie4c_uscale_plus_0.xci  -force >> $log_file
-export_ip_user_files -of_objects      [get_files $ip_dir/pcie4c_uscale_plus_0/pcie4c_uscale_plus_0.xci] -no_script -sync -force >> $log_file
-set_property used_in_simulation false [get_files $ip_dir/pcie4c_uscale_plus_0/pcie4c_uscale_plus_0.xci] >> $log_file
+add_files -norecurse                             $ip_dir/pcie4_uscale_plus_0/pcie4_uscale_plus_0.xci  -force >> $log_file
+export_ip_user_files -of_objects      [get_files $ip_dir/pcie4_uscale_plus_0/pcie4_uscale_plus_0.xci] -no_script -sync -force >> $log_file
+set_property used_in_simulation false [get_files $ip_dir/pcie4_uscale_plus_0/pcie4_uscale_plus_0.xci] >> $log_file
 # add sem_ultra
 add_files -norecurse                             $ip_dir/sem_ultra_0/sem_ultra_0.xci  -force >> $log_file
 export_ip_user_files -of_objects      [get_files $ip_dir/sem_ultra_0/sem_ultra_0.xci] -no_script -sync -force >> $log_file

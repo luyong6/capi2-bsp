@@ -34,30 +34,31 @@ set action_clock_freq $::env(FPGA_ACTION_CLK)
 # Create PCIe4 IP
 create_ip -name pcie4c_uscale_plus -vendor xilinx.com -library ip -version 1.0 -module_name pcie4_uscale_plus_0 -dir $ip_dir >> $log_file
 #create_ip -name pcie4_uscale_plus -vendor xilinx.com -library ip -module_name pcie4_uscale_plus_0 -dir $ip_dir >> $log_file
-set_property -dict [list 
+set_property -dict [list                                              \
                     CONFIG.PL_LINK_CAP_MAX_LINK_SPEED {8.0_GT/s}      \
-                    CONFIG.PL_LINK_CAP_MAX_LINK_WIDTH {X16}           \     
+                    CONFIG.PL_LINK_CAP_MAX_LINK_WIDTH {X16}           \
                     CONFIG.AXISTEN_IF_EXT_512_RQ_STRADDLE {true}      \
-                    CONFIG.AXISTEN_IF_EXT_512_RC_4TLP_STRADDLE {true} \ 
+                    CONFIG.AXISTEN_IF_EXT_512_RC_4TLP_STRADDLE {true} \
                     CONFIG.PF0_DEVICE_ID {903F}                       \
                     CONFIG.PF2_DEVICE_ID {943F}                       \
                     CONFIG.PF3_DEVICE_ID {963F}                       \
                     CONFIG.axisten_if_width {512_bit}                 \
                     CONFIG.coreclk_freq {500}                         \
                     CONFIG.plltype {QPLL1}                            \
-                    CONFIG.axisten_freq {250}
+                    CONFIG.axisten_freq {250}                         \
+                    CONFIG.SRIOV_FIRST_VF_OFFSET {1}                  \
                    ] [get_ips pcie4_uscale_plus_0] >> $log_file
 
-#set_property -dict [list 
-#                  CONFIG.pcie_blk_locn {X1Y0} 
-#                  CONFIG.gen_x0y1 {false} 
-#                  CONFIG.gen_x1y0 {true} 
-#                  CONFIG.select_quad {GTY_Quad_227} 
-#                  CONFIG.X1_CH_EN {X1Y15} 
-#                  CONFIG.X2_CH_EN {X1Y15 X1Y14} 
-#                  CONFIG.X4_CH_EN {X1Y15 X1Y14 X1Y13 X1Y12} 
-#                  CONFIG.X8_CH_EN {X1Y15 X1Y14 X1Y13 X1Y12 X1Y11 X1Y10 X1Y9 X1Y8} 
-#                  CONFIG.XS_CH_EN {X1Y15 X1Y14 X1Y13 X1Y12 X1Y11 X1Y10 X1Y9 X1Y8 X1Y7 X1Y6 X1Y5 X1Y4 X1Y3 X1Y2 X1Y1 X1Y0} 
+#set_property -dict [list
+#                  CONFIG.pcie_blk_locn {X1Y0}
+#                  CONFIG.gen_x0y1 {false}
+#                  CONFIG.gen_x1y0 {true}
+#                  CONFIG.select_quad {GTY_Quad_227}
+#                  CONFIG.X1_CH_EN {X1Y15}
+#                  CONFIG.X2_CH_EN {X1Y15 X1Y14}
+#                  CONFIG.X4_CH_EN {X1Y15 X1Y14 X1Y13 X1Y12}
+#                  CONFIG.X8_CH_EN {X1Y15 X1Y14 X1Y13 X1Y12 X1Y11 X1Y10 X1Y9 X1Y8}
+#                  CONFIG.XS_CH_EN {X1Y15 X1Y14 X1Y13 X1Y12 X1Y11 X1Y10 X1Y9 X1Y8 X1Y7 X1Y6 X1Y5 X1Y4 X1Y3 X1Y2 X1Y1 X1Y0}
 #                  CONFIG.TX_RX_MASTER_CHANNEL {X1Y15}] [get_ips pcie4_uscale_plus_0]
 
 #set_property -dict [list                                               \
@@ -174,18 +175,18 @@ set_property -dict [list
 #Increase psl clock period by 10% to ease timing
 #  create_ip -name clk_wiz -vendor xilinx.com -library ip -version 6.0 -module_name uscale_plus_clk_wiz -dir  $ip_dir >> $log_file
 
-#set_property -dict [list 
-#                 CONFIG.Component_Name {clk_wiz_1} 
-#                 CONFIG.CLKOUT2_USED {false} 
-#                 CONFIG.CLKOUT1_REQUESTED_OUT_FREQ {225} 
-#                 CONFIG.MMCM_DIVCLK_DIVIDE {4} 
-#                 CONFIG.MMCM_CLKFBOUT_MULT_F {48.375} 
-#                 CONFIG.MMCM_CLKOUT0_DIVIDE_F {5.375} 
-#                 CONFIG.MMCM_CLKOUT1_DIVIDE {1} 
-#                 CONFIG.NUM_OUT_CLKS {1} 
-#                 CONFIG.CLKOUT1_JITTER {157.690} 
-#                 CONFIG.CLKOUT1_PHASE_ERROR {219.953} 
-#                 CONFIG.CLKOUT2_JITTER {137.681} 
+#set_property -dict [list
+#                 CONFIG.Component_Name {clk_wiz_1}
+#                 CONFIG.CLKOUT2_USED {false}
+#                 CONFIG.CLKOUT1_REQUESTED_OUT_FREQ {225}
+#                 CONFIG.MMCM_DIVCLK_DIVIDE {4}
+#                 CONFIG.MMCM_CLKFBOUT_MULT_F {48.375}
+#                 CONFIG.MMCM_CLKOUT0_DIVIDE_F {5.375}
+#                 CONFIG.MMCM_CLKOUT1_DIVIDE {1}
+#                 CONFIG.NUM_OUT_CLKS {1}
+#                 CONFIG.CLKOUT1_JITTER {157.690}
+#                 CONFIG.CLKOUT1_PHASE_ERROR {219.953}
+#                 CONFIG.CLKOUT2_JITTER {137.681}
 #                 CONFIG.CLKOUT2_PHASE_ERROR {105.461}] [get_ips uscale_plus_clk_wiz] >> $log_file
 
 #  set_property -dict [list                                        \
@@ -222,12 +223,12 @@ set_property -dict [list
 # create_ip -name clk_wiz -vendor xilinx.com -library ip -module_name uscale_plus_clk_wiz -dir $ip_dir >> $log_file
   create_ip -name clk_wiz -vendor xilinx.com -library ip -version 6.0 -module_name uscale_plus_clk_wiz -dir  $ip_dir >> $log_file
 
-set_property -dict [list 
-                  CONFIG.CLKOUT1_REQUESTED_OUT_FREQ {250} 
-                  CONFIG.MMCM_DIVCLK_DIVIDE {1} 
-                  CONFIG.MMCM_CLKFBOUT_MULT_F {11.875} 
-                  CONFIG.MMCM_CLKOUT0_DIVIDE_F {4.750} 
-                  CONFIG.CLKOUT1_JITTER {98.427} 
+set_property -dict [list                                      \
+                  CONFIG.CLKOUT1_REQUESTED_OUT_FREQ {250}     \
+                  CONFIG.MMCM_DIVCLK_DIVIDE {1}               \
+                  CONFIG.MMCM_CLKFBOUT_MULT_F {11.875}        \
+                  CONFIG.MMCM_CLKOUT0_DIVIDE_F {4.750}        \
+                  CONFIG.CLKOUT1_JITTER {98.427}              \
                   CONFIG.CLKOUT1_PHASE_ERROR {87.466}] [get_ips uscale_plus_clk_wiz] >> $log_file
 
 #  set_property -dict [list                                    \
