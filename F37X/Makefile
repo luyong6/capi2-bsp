@@ -18,8 +18,8 @@ SHELL=/bin/bash
 
 export FPGA_CARD    = F37X
 export FPGA_DISPLAY = "Inspur-F37X"
-#export FPGA_PART    = xcvu37p-fsvh2892-2-e-es1
-export FPGA_PART    = xcvu37p-fsvh2892-2-e
+export FPGA_PART    = xcvu37p-fsvh2892-2-e-es1
+#export FPGA_PART    = xcvu37p-fsvh2892-2-e
 export FPGA_SRC     = $(ROOT_DIR)/ultrascale_plus/src
 
 include ../capi_card.mk
