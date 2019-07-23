@@ -18,12 +18,7 @@
 ############################################################################
 ############################################################################
 
-# Flyslice FX609 has changed following:
-# Max LINK SPEED: 8GT/s
-# Max LINK WIDTH: X16
-# SUBSYSTEM_ID: 0x0661
-# PCIE_ID_IF = flase
-# PCIE BANK 227/226/225/224 (SLR1 X1Y2)
+#F37X uses X1Y0 and pcie4c
 
 # user can set a specific value for the Action clock lower than the 250MHz nominal clock
 set action_clock_freq "250MHz"
@@ -37,17 +32,22 @@ create_ip -name pcie4c_uscale_plus -vendor xilinx.com -library ip -version 1.0 -
 set_property -dict [list                                              \
                     CONFIG.PL_LINK_CAP_MAX_LINK_SPEED {8.0_GT/s}      \
                     CONFIG.PL_LINK_CAP_MAX_LINK_WIDTH {X16}           \
+                    CONFIG.AXISTEN_IF_EXT_512_CQ_STRADDLE {true}      \
                     CONFIG.AXISTEN_IF_EXT_512_RQ_STRADDLE {true}      \
-                    CONFIG.AXISTEN_IF_EXT_512_RC_4TLP_STRADDLE {true} \
-                    CONFIG.PF0_DEVICE_ID {903F}                       \
-                    CONFIG.PF2_DEVICE_ID {943F}                       \
-                    CONFIG.PF3_DEVICE_ID {963F}                       \
+                    CONFIG.AXISTEN_IF_EXT_512_RC_4TLP_STRADDLE {false} \
+                    CONFIG.PF0_CLASS_CODE {1200ff}                    \
+                    CONFIG.PF0_DEVICE_ID {0477}                       \
+                    CONFIG.PF0_REVISION_ID {02}                       \
+                    CONFIG.PF0_SUBSYSTEM_ID {0668}                    \
+                    CONFIG.PF0_SUBSYSTEM_VENDOR_ID {1014}             \
+                    CONFIG.vendor_id {1014}                           \
                     CONFIG.axisten_if_width {512_bit}                 \
                     CONFIG.coreclk_freq {500}                         \
                     CONFIG.plltype {QPLL1}                            \
                     CONFIG.axisten_freq {250}                         \
                     CONFIG.SRIOV_FIRST_VF_OFFSET {1}                  \
                     CONFIG.ext_pcie_cfg_space_enabled {true}           \
+                    CONFIG.legacy_ext_pcie_cfg_space_enabled {true}    \
                     CONFIG.pf0_bar0_64bit {true}                       \
                     CONFIG.pf0_bar0_prefetchable {true}                \
                     CONFIG.pf0_bar0_scale {Megabytes}                  \
