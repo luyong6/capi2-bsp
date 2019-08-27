@@ -29,25 +29,22 @@ set action_clock_freq $::env(FPGA_ACTION_CLK)
 # Create PCIe4 IP
 create_ip -name pcie4c_uscale_plus -vendor xilinx.com -library ip -version 1.0 -module_name pcie4_uscale_plus_0 -dir $ip_dir >> $log_file
 #create_ip -name pcie4_uscale_plus -vendor xilinx.com -library ip -module_name pcie4_uscale_plus_0 -dir $ip_dir >> $log_file
-set_property -dict [list                                              \
-                    CONFIG.PL_LINK_CAP_MAX_LINK_SPEED {8.0_GT/s}      \
-                    CONFIG.PL_LINK_CAP_MAX_LINK_WIDTH {X16}           \
-                    CONFIG.AXISTEN_IF_EXT_512_CQ_STRADDLE {true}      \
-                    CONFIG.AXISTEN_IF_EXT_512_RQ_STRADDLE {true}      \
+set_property -dict [list                                               \
+                    CONFIG.enable_gen4 {false}                         \
+                    CONFIG.gen4_eieos_0s7 {true}                       \
+                    CONFIG.PL_LINK_CAP_MAX_LINK_SPEED {8.0_GT/s}       \
+                    CONFIG.PL_LINK_CAP_MAX_LINK_WIDTH {X16}            \
+                    CONFIG.AXISTEN_IF_EXT_512_CQ_STRADDLE {true}       \
                     CONFIG.AXISTEN_IF_EXT_512_RC_4TLP_STRADDLE {false} \
-                    CONFIG.PF0_CLASS_CODE {1200ff}                    \
-                    CONFIG.PF0_DEVICE_ID {0477}                       \
-                    CONFIG.PF0_REVISION_ID {02}                       \
-                    CONFIG.PF0_SUBSYSTEM_ID {0668}                    \
-                    CONFIG.PF0_SUBSYSTEM_VENDOR_ID {1014}             \
-                    CONFIG.vendor_id {1014}                           \
-                    CONFIG.axisten_if_width {512_bit}                 \
-                    CONFIG.coreclk_freq {500}                         \
-                    CONFIG.plltype {QPLL1}                            \
-                    CONFIG.axisten_freq {250}                         \
-                    CONFIG.SRIOV_FIRST_VF_OFFSET {1}                  \
-                    CONFIG.ext_pcie_cfg_space_enabled {true}           \
-                    CONFIG.legacy_ext_pcie_cfg_space_enabled {true}    \
+                    CONFIG.axisten_if_enable_client_tag {true}         \
+                    CONFIG.PF0_CLASS_CODE {1200ff}                     \
+                    CONFIG.PF0_DEVICE_ID {0477}                        \
+                    CONFIG.PF0_REVISION_ID {02}                        \
+                    CONFIG.PF0_SUBSYSTEM_ID {0668}                     \
+                    CONFIG.PF0_SUBSYSTEM_VENDOR_ID {1014}              \
+                    CONFIG.PCIE_ID_IF {false}                          \
+                    CONFIG.ins_loss_profile {Add-in_card}              \
+                    CONFIG.PHY_LP_TXPRESET {4}                         \
                     CONFIG.pf0_bar0_64bit {true}                       \
                     CONFIG.pf0_bar0_prefetchable {true}                \
                     CONFIG.pf0_bar0_scale {Megabytes}                  \
@@ -61,6 +58,15 @@ set_property -dict [list                                              \
                     CONFIG.pf0_bar4_scale {Gigabytes}                  \
                     CONFIG.pf0_bar4_size {256}                         \
                     CONFIG.pf0_dev_cap_max_payload {512_bytes}         \
+                    CONFIG.vendor_id {1014}                            \
+                    CONFIG.ext_pcie_cfg_space_enabled {true}           \
+                    CONFIG.legacy_ext_pcie_cfg_space_enabled {true}    \
+                    CONFIG.mode_selection {Advanced}                   \
+                    CONFIG.AXISTEN_IF_EXT_512_RQ_STRADDLE {true}       \
+                    CONFIG.PF0_MSIX_CAP_PBA_BIR {BAR_1:0}              \
+                    CONFIG.PF0_MSIX_CAP_TABLE_BIR {BAR_1:0}            \
+                    CONFIG.PF2_DEVICE_ID {9048}                        \
+                    CONFIG.PF3_DEVICE_ID {9048}                        \
                     CONFIG.pf2_bar2_enabled {true}                     \
                     CONFIG.pf3_bar2_enabled {true}                     \
                     CONFIG.pf1_bar2_enabled {true}                     \
@@ -91,36 +97,32 @@ set_property -dict [list                                              \
                     CONFIG.pf3_bar0_scale {Megabytes}                  \
                     CONFIG.pf3_bar0_size {256}                         \
                     CONFIG.pf3_bar4_size {256}                         \
+                    CONFIG.coreclk_freq {500}                          \
+                    CONFIG.plltype {QPLL1}                             \
+                    CONFIG.axisten_freq {250}                          \
+                    CONFIG.SRIOV_FIRST_VF_OFFSET {1}                   \
                    ] [get_ips pcie4_uscale_plus_0] >> $log_file
 
-#set_property -dict [list
-#                  CONFIG.pcie_blk_locn {X1Y0}
-#                  CONFIG.gen_x0y1 {false}
-#                  CONFIG.gen_x1y0 {true}
-#                  CONFIG.select_quad {GTY_Quad_227}
-#                  CONFIG.X1_CH_EN {X1Y15}
-#                  CONFIG.X2_CH_EN {X1Y15 X1Y14}
-#                  CONFIG.X4_CH_EN {X1Y15 X1Y14 X1Y13 X1Y12}
-#                  CONFIG.X8_CH_EN {X1Y15 X1Y14 X1Y13 X1Y12 X1Y11 X1Y10 X1Y9 X1Y8}
-#                  CONFIG.XS_CH_EN {X1Y15 X1Y14 X1Y13 X1Y12 X1Y11 X1Y10 X1Y9 X1Y8 X1Y7 X1Y6 X1Y5 X1Y4 X1Y3 X1Y2 X1Y1 X1Y0}
-#                  CONFIG.TX_RX_MASTER_CHANNEL {X1Y15}] [get_ips pcie4_uscale_plus_0]
 
-#set_property -dict [list                                               \
-#                    CONFIG.enable_gen4 {false}                         \
-#                    CONFIG.gen4_eieos_0s7 {true}                       \
-#                    CONFIG.PL_LINK_CAP_MAX_LINK_SPEED {8.0_GT/s}       \
-#                    CONFIG.PL_LINK_CAP_MAX_LINK_WIDTH {X16}            \
-#                    CONFIG.AXISTEN_IF_EXT_512_CQ_STRADDLE {true}       \
+#set_property -dict [list                                              \
+#                    CONFIG.PL_LINK_CAP_MAX_LINK_SPEED {8.0_GT/s}      \
+#                    CONFIG.PL_LINK_CAP_MAX_LINK_WIDTH {X16}           \
+#                    CONFIG.AXISTEN_IF_EXT_512_CQ_STRADDLE {true}      \
+#                    CONFIG.AXISTEN_IF_EXT_512_RQ_STRADDLE {true}      \
 #                    CONFIG.AXISTEN_IF_EXT_512_RC_4TLP_STRADDLE {false} \
-#                    CONFIG.axisten_if_enable_client_tag {true}         \
-#                    CONFIG.PF0_CLASS_CODE {1200ff}                     \
-#                    CONFIG.PF0_DEVICE_ID {0477}                        \
-#                    CONFIG.PF0_REVISION_ID {02}                        \
-#                    CONFIG.PF0_SUBSYSTEM_ID {0660}                     \
-#                    CONFIG.PF0_SUBSYSTEM_VENDOR_ID {1014}              \
-#                    CONFIG.PCIE_ID_IF {false}                          \
-#                    CONFIG.ins_loss_profile {Add-in_card}              \
-#                    CONFIG.PHY_LP_TXPRESET {4}                         \
+#                    CONFIG.PF0_CLASS_CODE {1200ff}                    \
+#                    CONFIG.PF0_DEVICE_ID {0477}                       \
+#                    CONFIG.PF0_REVISION_ID {02}                       \
+#                    CONFIG.PF0_SUBSYSTEM_ID {0668}                    \
+#                    CONFIG.PF0_SUBSYSTEM_VENDOR_ID {1014}             \
+#                    CONFIG.vendor_id {1014}                           \
+#                    CONFIG.axisten_if_width {512_bit}                 \
+#                    CONFIG.coreclk_freq {500}                         \
+#                    CONFIG.plltype {QPLL1}                            \
+#                    CONFIG.axisten_freq {250}                         \
+#                    CONFIG.SRIOV_FIRST_VF_OFFSET {1}                  \
+#                    CONFIG.ext_pcie_cfg_space_enabled {true}           \
+#                    CONFIG.legacy_ext_pcie_cfg_space_enabled {true}    \
 #                    CONFIG.pf0_bar0_64bit {true}                       \
 #                    CONFIG.pf0_bar0_prefetchable {true}                \
 #                    CONFIG.pf0_bar0_scale {Megabytes}                  \
@@ -134,20 +136,6 @@ set_property -dict [list                                              \
 #                    CONFIG.pf0_bar4_scale {Gigabytes}                  \
 #                    CONFIG.pf0_bar4_size {256}                         \
 #                    CONFIG.pf0_dev_cap_max_payload {512_bytes}         \
-#                    CONFIG.vendor_id {1014}                            \
-#                    CONFIG.ext_pcie_cfg_space_enabled {true}           \
-#                    CONFIG.legacy_ext_pcie_cfg_space_enabled {true}    \
-#                    CONFIG.mode_selection {Advanced}                   \
-#                    CONFIG.en_gt_selection {true}                      \
-#                    CONFIG.pcie_blk_locn {X1Y2}                        \
-#                    CONFIG.gen_x0y1 {false}                            \
-#                    CONFIG.gen_x1y2 {true}                             \
-#                    CONFIG.select_quad {GTY_Quad_227}                  \
-#                    CONFIG.AXISTEN_IF_EXT_512_RQ_STRADDLE {true}       \
-#                    CONFIG.PF0_MSIX_CAP_PBA_BIR {BAR_1:0}              \
-#                    CONFIG.PF0_MSIX_CAP_TABLE_BIR {BAR_1:0}            \
-#                    CONFIG.PF2_DEVICE_ID {9048}                        \
-#                    CONFIG.PF3_DEVICE_ID {9048}                        \
 #                    CONFIG.pf2_bar2_enabled {true}                     \
 #                    CONFIG.pf3_bar2_enabled {true}                     \
 #                    CONFIG.pf1_bar2_enabled {true}                     \
@@ -178,38 +166,7 @@ set_property -dict [list                                              \
 #                    CONFIG.pf3_bar0_scale {Megabytes}                  \
 #                    CONFIG.pf3_bar0_size {256}                         \
 #                    CONFIG.pf3_bar4_size {256}                         \
-#                    CONFIG.coreclk_freq {500}                          \
-#                    CONFIG.plltype {QPLL0}                             \
-#                    CONFIG.axisten_freq {250}                          \
 #                   ] [get_ips pcie4_uscale_plus_0] >> $log_file
-
-
-#Create 250MHz Clock IP
-#set_property -dict [list CONFIG.CLKIN1_JITTER_PS {40.0} \
-#CONFIG.CLKOUT1_DRIVES {BUFG} \
-#CONFIG.CLKOUT1_JITTER {85.736} \
-#CONFIG.CLKOUT1_PHASE_ERROR {79.008} \
-#CONFIG.CLKOUT1_REQUESTED_OUT_FREQ {250} \
-#CONFIG.CLKOUT2_DRIVES {BUFG} \
-#CONFIG.CLKOUT2_JITTER {98.122} \
-#CONFIG.CLKOUT2_PHASE_ERROR {79.008} \
-#CONFIG.CLKOUT2_REQUESTED_OUT_FREQ {125} \
-#CONFIG.CLKOUT2_USED {true} \
-#CONFIG.CLKOUT3_DRIVES {BUFGCE} \
-#CONFIG.CLKOUT3_JITTER {98.122} \
-#CONFIG.CLKOUT3_PHASE_ERROR {79.008} \
-#CONFIG.CLKOUT3_REQUESTED_OUT_FREQ {125} \
-#CONFIG.CLKOUT3_USED {true} \
-#CONFIG.FEEDBACK_SOURCE {FDBK_AUTO} \
-#CONFIG.MMCM_CLKFBOUT_MULT_F {5.000} \
-#CONFIG.MMCM_CLKIN1_PERIOD {4.000} \
-#CONFIG.MMCM_CLKIN2_PERIOD {10.0} \
-#CONFIG.MMCM_CLKOUT0_DIVIDE_F {5.000} \
-#CONFIG.MMCM_CLKOUT1_DIVIDE {10} \
-#CONFIG.MMCM_CLKOUT2_DIVIDE {10} \
-#CONFIG.MMCM_DIVCLK_DIVIDE {1} \
-#CONFIG.NUM_OUT_CLKS {3} \
-#CONFIG.PRIM_IN_FREQ {250}] [get_ips uscale_plus_clk_wiz]
 
 if { $action_clock_freq == "225MHZ" } {
   #Create 225MHz specific Clock IP
